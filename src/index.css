@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0c;
+  color: #eef0f2;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Faint CRT scanline overlay — texture, not gimmick */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Vignette for depth */
+.vignette::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 62%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Caret blink for typewriter */
+.caret::after {
+  content: '▌';
+  color: #e8a33d;
+  animation: blink 1s steps(1) infinite;
+  margin-left: 2px;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Redaction bar */
+.redact-bar {
+  position: relative;
+  display: inline-block;
+}
+.redact-bar > .bar {
+  position: absolute;
+  inset: 0;
+  background: #1f1f24;
+  border: 1px solid #2a2a30;
+  transition: transform 0.35s cubic-bezier(0.7, 0, 0.3, 1);
+  z-index: 2;
+}
+.redact-bar.declassified > .bar,
+.redact-bar:hover > .bar {
+  transform: translateX(101%);
+}
+
+.scan-texture {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(232, 163, 61, 0.08) 0px,
+    rgba(232, 163, 61, 0.08) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/* Selection */
+::selection {
+  background: #e8a33d;
+  color: #0a0a0c;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f1f24;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a30;
+}
+
+/* Ticker pause on hover */
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Focus ring for keyboard nav */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #e8a33d;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
