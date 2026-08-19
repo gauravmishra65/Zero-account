@@ -174,7 +174,7 @@ function SiteLogo() {
       <span className="flex h-9 w-[104px] items-center justify-center overflow-hidden bg-[#f8f5ef] px-2">
         <img src="/authorgaurav-logo.png" alt="Gaurav Mishra" className="h-full w-full object-contain" />
       </span>
-      <span className="font-mono text-sm font-semibold tracking-tight text-bright hover:text-signal transition-colors">
+      <span className="font-heading text-base font-semibold tracking-wide text-bright hover:text-signal transition-colors">
         ZERO_ACCOUNT<span className="text-signal">//</span>
       </span>
     </a>
@@ -234,7 +234,7 @@ function PageIntro({ label, title, children }: { label: string; title: string; c
       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-signal/10 blur-[100px]" />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <CaseLabel className="mb-5 block">&gt; {label} :: ACTIVE</CaseLabel>
-        <h1 className="max-w-4xl break-words font-mono text-[clamp(1.6rem,4vw,2.75rem)] font-bold leading-[1.05] tracking-tight text-bright">{title}</h1>
+        <h1 className="max-w-4xl break-words font-heading text-[clamp(1.6rem,4vw,2.75rem)] font-bold leading-[1.05] tracking-wide text-bright">{title}</h1>
         <AccentBar className="my-5" />
         <p className="max-w-2xl font-serif text-lg leading-relaxed text-bright-muted sm:text-xl lg:text-2xl">{children}</p>
       </div>
@@ -263,7 +263,7 @@ function HomePage() {
             <CaseLabel className="mb-6 block">{CASE_HEADER}</CaseLabel>
             <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-signal">{SERIES_LINE}</p>
             <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.3em] text-signal">// ARRIVES MID-SEPTEMBER 2026</p>
-            <h1 className="break-words font-mono text-[clamp(2.75rem,8vw,6.25rem)] font-bold leading-[0.94] tracking-tightest text-bright">
+            <h1 className="break-words font-heading text-[clamp(2.75rem,8vw,6.25rem)] font-bold leading-[0.94] tracking-wide text-bright">
               ZERO <span className="animate-flicker text-signal">ACCOUNT</span>
             </h1>
             <p className="mt-7 min-h-[3.5rem] max-w-xl font-serif text-xl leading-snug text-bright sm:text-2xl lg:text-3xl">&ldquo;{tagline}&rdquo;</p>
@@ -288,7 +288,7 @@ function HomePage() {
       <Ticker />
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="mb-10 flex items-end justify-between gap-6">
-          <div><CaseLabel className="mb-4 block">&gt; NAVIGATION :: CASE_INDEX</CaseLabel><h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">FOLLOW THE EVIDENCE</h2><AccentBar className="mt-4" /></div>
+          <div><CaseLabel className="mb-4 block">&gt; NAVIGATION :: CASE_INDEX</CaseLabel><h2 className="font-heading text-3xl font-bold tracking-wide text-bright sm:text-4xl">FOLLOW THE EVIDENCE</h2><AccentBar className="mt-4" /></div>
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint sm:block">06 FILES // 01 SUBJECT</span>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
@@ -347,7 +347,7 @@ function PlayerCard({ player }: { player: Player }) {
   const classified = player.variant === 'classified';
   return <article className={`corner-frame min-h-[245px] border p-6 transition-all hover:-translate-y-1 ${system ? 'border-signal/60 bg-ink-card scan-texture' : classified ? 'border-dashed border-ink-muted bg-ink-base' : 'border-ink-line bg-ink-card hover:border-signal/60 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.3)]'}`}>
     <div className="mb-5 flex items-center gap-3">{system ? <ScanLine size={18} className="text-signal" /> : classified ? <Lock size={18} className="text-bright-muted" /> : <Fingerprint size={18} className="text-signal" />}<span className="font-mono text-[10px] uppercase tracking-[0.22em] text-bright-faint">{system ? 'SYSTEM_ENTITY' : classified ? 'FILE_SLOT' : 'PERSON_OF_INTEREST'}</span></div>
-    <h2 className={`font-mono text-xl font-bold tracking-tight ${system ? 'text-signal animate-flicker' : classified ? 'text-bright-muted' : 'text-bright'}`}>{player.name}</h2>
+    <h2 className={`font-heading text-xl font-bold tracking-wide ${system ? 'text-signal animate-flicker' : classified ? 'text-bright-muted' : 'text-bright'}`}>{player.name}</h2>
     <RuleLine className="my-5" />
     <p className="font-serif text-lg leading-relaxed text-bright-muted">{player.role}</p>
     <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-bright-faint">// {player.note}</p>
@@ -359,7 +359,7 @@ function PlayersPage() {
 }
 
 function BookOnePage() {
-  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="corner-frame group block border border-ink-line bg-ink-card p-8 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)] sm:p-12"><div className="flex flex-wrap items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE // THE GAURAV MISHRA SERIES</CaseLabel><h2 className="break-words font-mono text-[clamp(1.6rem,4vw,2.75rem)] font-bold tracking-tight text-bright">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
+  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="corner-frame group block border border-ink-line bg-ink-card p-8 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)] sm:p-12"><div className="flex flex-wrap items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE // THE GAURAV MISHRA SERIES</CaseLabel><h2 className="break-words font-heading text-[clamp(1.6rem,4vw,2.75rem)] font-bold tracking-wide text-bright">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
 }
 
 function AuthorPage() {
@@ -384,7 +384,7 @@ function AuthorPage() {
           </div>
           <div>
             <CaseLabel className="mb-5 block">AUTHOR PROFILE // GM-001</CaseLabel>
-            <h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">GAURAV MISHRA</h2>
+            <h2 className="font-heading text-3xl font-bold tracking-wide text-bright sm:text-4xl">GAURAV MISHRA</h2>
             <AccentBar className="my-7" />
             <p className="font-serif text-2xl leading-relaxed text-bright">Gaurav Mishra writes financial-crime thrillers grounded in how modern fraud actually works.</p>
             <p className="mt-6 font-serif text-lg leading-relaxed text-bright-muted">The Gaurav Mishra Series follows one investigator across connected cases, each one a deeper cut into the systems that move money and the people who learn to bend them.</p>
@@ -418,7 +418,7 @@ function ClearanceRequest() {
 }
 
 function BuyPage() {
-  return <><PageIntro label="BUY NOW" title="ACQUIRE THE FILE">The truth is expensive. The book costs less.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid gap-16 lg:grid-cols-[1fr_0.8fr]"><div><CaseLabel className="mb-5 block">RETAIL ACCESS // SELECT CHANNEL</CaseLabel><div className="grid gap-4 sm:grid-cols-2">{RETAILERS.map((retailer) => <a key={retailer} href="#" data-todo="insert real purchase link" className="corner-frame group flex items-center justify-between border border-signal/60 px-5 py-4 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal hover:text-ink-base hover:shadow-[0_14px_30px_-16px_rgba(232,163,61,0.45)]">{retailer}<span className="inline-flex"><ArrowRight size={15} /></span></a>)}</div><p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint">// RELEASE_WINDOW: MID-SEPTEMBER 2026 — LINKS ACTIVATE AT LAUNCH</p></div><div><CaseLabel className="mb-5 block">&gt; REQUEST_CLEARANCE ::</CaseLabel><h2 className="font-mono text-2xl font-bold text-bright">GET THE SAMPLE CHAPTER FIRST</h2><p className="mt-3 mb-7 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-muted">// OPENING TRANSMISSION SENT INSTANTLY TO YOUR INBOX</p><ClearanceRequest /></div></div></main></>;
+  return <><PageIntro label="BUY NOW" title="ACQUIRE THE FILE">The truth is expensive. The book costs less.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid gap-16 lg:grid-cols-[1fr_0.8fr]"><div><CaseLabel className="mb-5 block">RETAIL ACCESS // SELECT CHANNEL</CaseLabel><div className="grid gap-4 sm:grid-cols-2">{RETAILERS.map((retailer) => <a key={retailer} href="#" data-todo="insert real purchase link" className="corner-frame group flex items-center justify-between border border-signal/60 px-5 py-4 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal hover:text-ink-base hover:shadow-[0_14px_30px_-16px_rgba(232,163,61,0.45)]">{retailer}<span className="inline-flex"><ArrowRight size={15} /></span></a>)}</div><p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint">// RELEASE_WINDOW: MID-SEPTEMBER 2026 — LINKS ACTIVATE AT LAUNCH</p></div><div><CaseLabel className="mb-5 block">&gt; REQUEST_CLEARANCE ::</CaseLabel><h2 className="font-heading text-2xl font-bold tracking-wide text-bright">GET THE SAMPLE CHAPTER FIRST</h2><p className="mt-3 mb-7 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-muted">// OPENING TRANSMISSION SENT INSTANTLY TO YOUR INBOX</p><ClearanceRequest /></div></div></main></>;
 }
 
 function Footer() {
