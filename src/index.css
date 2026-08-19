@@ -129,3 +129,37 @@ input:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* Corner-bracket "case file" frame accent used on cards and imagery */
+.corner-frame {
+  position: relative;
+}
+.corner-frame::before,
+.corner-frame::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.55;
+  transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+.corner-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid #e8a33d;
+  border-left: 2px solid #e8a33d;
+}
+.corner-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid #e8a33d;
+  border-right: 2px solid #e8a33d;
+}
+.corner-frame:hover::before,
+.corner-frame:hover::after {
+  opacity: 1;
+  width: 22px;
+  height: 22px;
+}
