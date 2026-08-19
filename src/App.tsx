@@ -1,4 +1,4 @@
-import { Component, useEffect, useState, type ErrorInfo, type FormEvent, type ReactNode } from 'react';
+import { Component, useEffect, useRef, useState, type ErrorInfo, type FormEvent, type ReactNode } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { submitClearanceRequest, supabaseReady } from '@/lib/supabase';
 
-const TITLE = 'ZERO ACCOUNT';
 const SERIES_LINE = 'BOOK TWO — THE GAURAV MISHRA SERIES';
 const CASE_HEADER = '> CASE_FILE :: SV-00417 // STATUS: ACTIVE';
 const TAGLINE = 'Eight seconds. Seventeen transactions. A truth that had to outrun a lie.';
@@ -54,6 +53,85 @@ function CaseLabel({ children, className = '' }: { children: ReactNode; classNam
 
 function RuleLine({ className = '' }: { className?: string }) {
   return <div className={`h-px w-full bg-ink-line ${className}`} />;
+}
+
+function AccentBar({ className = '' }: { className?: string }) {
+  return <div className={`h-[3px] w-14 bg-gradient-to-r from-signal to-signal-glow ${className}`} />;
+}
+
+/**
+ * Full-viewport canvas that renders a slow, faint stream of ledger-style
+ * characters (digits, currency symbols, hex) drifting downward — a quiet
+ * "moving background" that reinforces the financial-thriller / case-file
+ * theme without competing with foreground text. Respects reduced-motion.
+ */
+function LedgerRainBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const chars = '0123456789ABCDEF$€¥£₹%.,-+=:/'.split('');
+    const fontSize = 15;
+    let width = 0;
+    let height = 0;
+    let columns = 0;
+    let drops: number[] = [];
+    let raf = 0;
+
+    function resize() {
+      const canvasEl = canvasRef.current;
+      if (!canvasEl) return;
+      width = canvasEl.width = window.innerWidth;
+      height = canvasEl.height = window.innerHeight;
+      columns = Math.max(1, Math.floor(width / fontSize));
+      drops = new Array(columns).fill(0).map(() => Math.random() * -140);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    if (reduceMotion) {
+      return () => window.removeEventListener('resize', resize);
+    }
+
+    function draw() {
+      if (!ctx) return;
+      ctx.fillStyle = 'rgba(10, 10, 12, 0.07)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = `${fontSize}px "IBM Plex Mono", ui-monospace, monospace`;
+      for (let i = 0; i < columns; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+        const opacity = Math.random() * 0.28 + 0.04;
+        ctx.fillStyle = `rgba(232, 163, 61, ${opacity.toFixed(3)})`;
+        ctx.fillText(char, x, y);
+        if (y > height && Math.random() > 0.982) {
+          drops[i] = 0;
+        }
+        drops[i] += 0.32;
+      }
+      raf = requestAnimationFrame(draw);
+    }
+    raf = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 -z-10 opacity-[0.55]"
+    />
+  );
 }
 
 function useTypewriter(text: string, speed = 38) {
@@ -119,7 +197,7 @@ function Nav() {
               {link.label}
             </a>
           ))}
-          <a href="#/buy" className="border border-signal px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-signal hover:bg-signal hover:text-ink-base transition-colors">BUY</a>
+          <a href="#/buy" className="border border-signal px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-signal transition-all hover:bg-signal hover:text-ink-base hover:shadow-[0_0_18px_rgba(232,163,61,0.45)]">BUY</a>
         </div>
         <button className="text-bright lg:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -152,11 +230,13 @@ function Ticker() {
 
 function PageIntro({ label, title, children }: { label: string; title: string; children: ReactNode }) {
   return (
-    <div className="border-b border-ink-line bg-ink-panel/50 pt-36 pb-16 lg:pt-44 lg:pb-20">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+    <div className="relative overflow-hidden border-b border-ink-line bg-ink-panel/50 pt-32 pb-14 lg:pt-40 lg:pb-16">
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-signal/10 blur-[100px]" />
+      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <CaseLabel className="mb-5 block">&gt; {label} :: ACTIVE</CaseLabel>
-        <h1 className="max-w-4xl font-mono text-4xl font-bold tracking-tight text-bright sm:text-6xl">{title}</h1>
-        <p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">{children}</p>
+        <h1 className="max-w-4xl break-words font-mono text-[clamp(1.9rem,5.2vw,3.75rem)] font-bold leading-[1.05] tracking-tight text-bright">{title}</h1>
+        <AccentBar className="my-5" />
+        <p className="max-w-2xl font-serif text-lg leading-relaxed text-bright-muted sm:text-xl lg:text-2xl">{children}</p>
       </div>
     </div>
   );
@@ -164,7 +244,7 @@ function PageIntro({ label, title, children }: { label: string; title: string; c
 
 function SectionLink({ href, label, text }: { href: string; label: string; text: string }) {
   return (
-    <a href={href} className="group block border border-ink-line bg-ink-card p-6 hover:border-signal/70 transition-colors">
+    <a href={href} className="corner-frame group block border border-ink-line bg-ink-card p-6 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)]">
       <CaseLabel className="mb-4 block">{label}</CaseLabel>
       <p className="font-serif text-xl leading-snug text-bright">{text}</p>
       <span className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-signal">OPEN FILE <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span>
@@ -176,25 +256,27 @@ function HomePage() {
   const tagline = useTypewriter(TAGLINE);
   return (
     <>
-      <section className="flex min-h-screen items-center pt-32 pb-16 lg:pt-28">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+      <section className="relative flex min-h-[88vh] items-center overflow-hidden pt-28 pb-14 lg:pt-24">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/40 to-transparent" />
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
           <div className="order-2 lg:order-1">
-            <CaseLabel className="mb-7 block">{CASE_HEADER}</CaseLabel>
-            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.3em] text-signal">{SERIES_LINE}</p>
+            <CaseLabel className="mb-6 block">{CASE_HEADER}</CaseLabel>
+            <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-signal">{SERIES_LINE}</p>
             <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.3em] text-signal">// ARRIVES MID-SEPTEMBER 2026</p>
-            <h1 className="font-mono text-5xl font-bold leading-[0.92] tracking-tightest text-bright sm:text-7xl lg:text-8xl">
+            <h1 className="break-words font-mono text-[clamp(2.75rem,8vw,6.25rem)] font-bold leading-[0.94] tracking-tightest text-bright">
               ZERO <span className="animate-flicker text-signal">ACCOUNT</span>
             </h1>
-            <p className="mt-8 min-h-[4rem] max-w-xl font-serif text-2xl leading-snug text-bright sm:text-3xl">&ldquo;{tagline}&rdquo;</p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a href="#/excerpt" className="group inline-flex items-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base hover:bg-signal-glow transition-colors">READ THE CASE FILE <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
-              <a href="#/players" className="inline-flex items-center gap-2 border border-ink-muted px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-bright hover:border-signal hover:text-signal transition-colors">MEET THE PLAYERS</a>
+            <p className="mt-7 min-h-[3.5rem] max-w-xl font-serif text-xl leading-snug text-bright sm:text-2xl lg:text-3xl">&ldquo;{tagline}&rdquo;</p>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <a href="#/excerpt" className="group inline-flex items-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_24px_rgba(232,163,61,0.5)]">READ THE CASE FILE <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
+              <a href="#/players" className="inline-flex items-center gap-2 border border-ink-muted px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-bright transition-colors hover:border-signal hover:text-signal">MEET THE PLAYERS</a>
             </div>
           </div>
           <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
             <div className="relative">
+              <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-signal/15 blur-[70px]" />
               <div className="absolute -left-3 -top-3 z-10 bg-signal px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ink-base">EXHIBIT 1</div>
-              <div className="relative aspect-[2/3] w-[270px] overflow-hidden border border-ink-muted bg-ink-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:w-[330px]">
+              <div className="corner-frame relative aspect-[2/3] w-[250px] overflow-hidden border border-ink-muted bg-ink-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:w-[310px]">
                 <img src="https://the-shadow-code.com/covers/the-zero-account-front.webp" alt="Zero Account book cover" className="h-full w-full object-cover" />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
               </div>
@@ -204,9 +286,9 @@ function HomePage() {
         </div>
       </section>
       <Ticker />
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="mb-10 flex items-end justify-between gap-6">
-          <div><CaseLabel className="mb-4 block">&gt; NAVIGATION :: CASE_INDEX</CaseLabel><h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">FOLLOW THE EVIDENCE</h2></div>
+          <div><CaseLabel className="mb-4 block">&gt; NAVIGATION :: CASE_INDEX</CaseLabel><h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">FOLLOW THE EVIDENCE</h2><AccentBar className="mt-4" /></div>
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint sm:block">06 FILES // 01 SUBJECT</span>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
@@ -239,7 +321,7 @@ function ExcerptPage() {
     <>
       <PageIntro label="EXHIBIT A" title="OPENING TRANSMISSION">The first detail is always the one nobody thought to hide.</PageIntro>
       <main className="mx-auto max-w-4xl px-5 py-20 lg:px-8 lg:py-28">
-        <div className="relative border border-ink-muted bg-[#1a1813] p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] sm:p-12">
+        <div className="corner-frame relative border border-ink-muted bg-[#1a1813] p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] sm:p-12">
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#28251c]/40 to-[#14130f]/60" />
           <div className="absolute right-5 top-5 rotate-[-6deg] border border-signal/60 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-signal">EYES ONLY</div>
           <div className="relative mb-8 flex items-center gap-3 border-b border-[#3a352a] pb-5"><FileText size={17} className="text-signal" /><span className="font-mono text-[11px] uppercase tracking-[0.24em] text-bright-muted">SCANNED_DOCUMENT // INTACT</span></div>
@@ -263,7 +345,7 @@ const PLAYERS: Player[] = [
 function PlayerCard({ player }: { player: Player }) {
   const system = player.variant === 'system';
   const classified = player.variant === 'classified';
-  return <article className={`min-h-[245px] border p-6 ${system ? 'border-signal/60 bg-ink-card scan-texture' : classified ? 'border-dashed border-ink-muted bg-ink-base' : 'border-ink-line bg-ink-card hover:border-signal/60'} transition-colors`}>
+  return <article className={`corner-frame min-h-[245px] border p-6 transition-all hover:-translate-y-1 ${system ? 'border-signal/60 bg-ink-card scan-texture' : classified ? 'border-dashed border-ink-muted bg-ink-base' : 'border-ink-line bg-ink-card hover:border-signal/60 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.3)]'}`}>
     <div className="mb-5 flex items-center gap-3">{system ? <ScanLine size={18} className="text-signal" /> : classified ? <Lock size={18} className="text-bright-muted" /> : <Fingerprint size={18} className="text-signal" />}<span className="font-mono text-[10px] uppercase tracking-[0.22em] text-bright-faint">{system ? 'SYSTEM_ENTITY' : classified ? 'FILE_SLOT' : 'PERSON_OF_INTEREST'}</span></div>
     <h2 className={`font-mono text-xl font-bold tracking-tight ${system ? 'text-signal animate-flicker' : classified ? 'text-bright-muted' : 'text-bright'}`}>{player.name}</h2>
     <RuleLine className="my-5" />
@@ -277,11 +359,41 @@ function PlayersPage() {
 }
 
 function BookOnePage() {
-  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="group block border border-ink-line bg-ink-card p-8 hover:border-signal/70 transition-colors sm:p-12"><div className="flex items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE // THE GAURAV MISHRA SERIES</CaseLabel><h2 className="font-mono text-4xl font-bold tracking-tight text-bright sm:text-6xl">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-2xl leading-relaxed text-bright-muted">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
+  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="corner-frame group block border border-ink-line bg-ink-card p-8 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)] sm:p-12"><div className="flex flex-wrap items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE // THE GAURAV MISHRA SERIES</CaseLabel><h2 className="break-words font-mono text-[clamp(1.9rem,5vw,3.75rem)] font-bold tracking-tight text-bright">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
 }
 
 function AuthorPage() {
-  return <><PageIntro label="THE AUTHOR" title="THE HAND BEHIND THE FILE">The systems are fictional. The mechanisms are not.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]"><div className="flex min-h-[220px] items-center justify-center bg-[#f8f5ef] p-6 sm:p-10"><img src="/authorgaurav-logo.png" alt="Gaurav Mishra author logo" className="max-h-[260px] w-full object-contain" /></div><div><CaseLabel className="mb-5 block">AUTHOR PROFILE // GM-001</CaseLabel><h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">GAURAV MISHRA</h2><RuleLine className="my-7" /><p className="font-serif text-2xl leading-relaxed text-bright">Gaurav Mishra writes financial-crime thrillers grounded in how modern fraud actually works.</p><p className="mt-6 font-serif text-lg leading-relaxed text-bright-muted">The Gaurav Mishra Series follows one investigator across connected cases, each one a deeper cut into the systems that move money and the people who learn to bend them.</p><a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex items-center gap-2 border border-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal hover:bg-signal hover:text-ink-base transition-colors">MORE BY GAURAV MISHRA <span className="inline-flex"><ExternalLink size={15} /></span></a></div></div></main></>;
+  return (
+    <>
+      <PageIntro label="THE AUTHOR" title="THE HAND BEHIND THE FILE">The systems are fictional. The mechanisms are not.</PageIntro>
+      <main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" aria-label="Visit authorgaurav.com" className="corner-frame group relative block overflow-hidden border border-ink-muted bg-ink-card shadow-[0_25px_70px_-25px_rgba(0,0,0,0.85)]">
+              <img src="https://authorgaurav.com/images/author/GM-Photo.jpg" alt="Gaurav Mishra, author portrait" className="aspect-[2/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-base/80 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-ink-line/80 bg-ink-base/85 px-4 py-3 backdrop-blur-sm">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint">// FIELD_PHOTO :: AUTHOR</span>
+                <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-signal">AUTHORGAURAV.COM <ExternalLink size={11} /></span>
+              </div>
+            </a>
+            <div className="mt-5 flex items-center gap-3 border border-ink-line bg-[#f8f5ef] px-4 py-3">
+              <img src="/authorgaurav-logo.png" alt="Gaurav Mishra logo" className="h-8 w-auto object-contain" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-base/70">THE GAURAV MISHRA SERIES</span>
+            </div>
+          </div>
+          <div>
+            <CaseLabel className="mb-5 block">AUTHOR PROFILE // GM-001</CaseLabel>
+            <h2 className="font-mono text-3xl font-bold text-bright sm:text-4xl">GAURAV MISHRA</h2>
+            <AccentBar className="my-7" />
+            <p className="font-serif text-2xl leading-relaxed text-bright">Gaurav Mishra writes financial-crime thrillers grounded in how modern fraud actually works.</p>
+            <p className="mt-6 font-serif text-lg leading-relaxed text-bright-muted">The Gaurav Mishra Series follows one investigator across connected cases, each one a deeper cut into the systems that move money and the people who learn to bend them.</p>
+            <a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex items-center gap-2 border border-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:bg-signal hover:text-ink-base hover:shadow-[0_0_20px_rgba(232,163,61,0.45)]">MORE BY GAURAV MISHRA <span className="inline-flex"><ExternalLink size={15} /></span></a>
+          </div>
+        </div>
+      </main>
+    </>
+  );
 }
 
 const RETAILERS = ['AMAZON', 'KINDLE', 'FLIPKART', 'NOTIONPRESS', 'GOODREADS'];
@@ -302,11 +414,11 @@ function ClearanceRequest() {
     setMessage(result.reason === 'rate_limited' ? 'TOO MANY REQUESTS // STAND BY AND RETRY LATER' : result.reason === 'invalid_email' ? 'INVALID_ADDRESS // CHECK INPUT' : 'TRANSMISSION FAILED // TRY AGAIN');
   }
   if (status === 'done') return <div className="border border-signal/60 bg-ink-card p-6"><p className="font-mono text-sm uppercase tracking-[0.16em] text-signal">CLEARANCE GRANTED // YOU WILL BE NOTIFIED //</p></div>;
-  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-sm text-bright outline-none placeholder:text-bright-faint" /></div><button disabled={status === 'loading'} className="inline-flex items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base hover:bg-signal-glow disabled:opacity-60">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-red-300">{message}</p>}</form>;
+  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-sm text-bright outline-none placeholder:text-bright-faint" /></div><button disabled={status === 'loading'} className="inline-flex items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-red-300">{message}</p>}</form>;
 }
 
 function BuyPage() {
-  return <><PageIntro label="BUY NOW" title="ACQUIRE THE FILE">The truth is expensive. The book costs less.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid gap-16 lg:grid-cols-[1fr_0.8fr]"><div><CaseLabel className="mb-5 block">RETAIL ACCESS // SELECT CHANNEL</CaseLabel><div className="grid gap-4 sm:grid-cols-2">{RETAILERS.map((retailer) => <a key={retailer} href="#" data-todo="insert real purchase link" className="group flex items-center justify-between border border-signal/60 px-5 py-4 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal hover:bg-signal hover:text-ink-base transition-colors">{retailer}<span className="inline-flex"><ArrowRight size={15} /></span></a>)}</div><p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint">// RELEASE_WINDOW: MID-SEPTEMBER 2026 — LINKS ACTIVATE AT LAUNCH</p></div><div><CaseLabel className="mb-5 block">&gt; REQUEST_CLEARANCE ::</CaseLabel><h2 className="font-mono text-2xl font-bold text-bright">GET THE SAMPLE CHAPTER FIRST</h2><p className="mt-3 mb-7 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-muted">// OPENING TRANSMISSION SENT INSTANTLY TO YOUR INBOX</p><ClearanceRequest /></div></div></main></>;
+  return <><PageIntro label="BUY NOW" title="ACQUIRE THE FILE">The truth is expensive. The book costs less.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid gap-16 lg:grid-cols-[1fr_0.8fr]"><div><CaseLabel className="mb-5 block">RETAIL ACCESS // SELECT CHANNEL</CaseLabel><div className="grid gap-4 sm:grid-cols-2">{RETAILERS.map((retailer) => <a key={retailer} href="#" data-todo="insert real purchase link" className="corner-frame group flex items-center justify-between border border-signal/60 px-5 py-4 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal hover:text-ink-base hover:shadow-[0_14px_30px_-16px_rgba(232,163,61,0.45)]">{retailer}<span className="inline-flex"><ArrowRight size={15} /></span></a>)}</div><p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bright-faint">// RELEASE_WINDOW: MID-SEPTEMBER 2026 — LINKS ACTIVATE AT LAUNCH</p></div><div><CaseLabel className="mb-5 block">&gt; REQUEST_CLEARANCE ::</CaseLabel><h2 className="font-mono text-2xl font-bold text-bright">GET THE SAMPLE CHAPTER FIRST</h2><p className="mt-3 mb-7 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-muted">// OPENING TRANSMISSION SENT INSTANTLY TO YOUR INBOX</p><ClearanceRequest /></div></div></main></>;
 }
 
 function Footer() {
@@ -347,7 +459,7 @@ function App() {
   const path = useHashPath();
   useEffect(() => { window.scrollTo({ top: 0 }); }, [path]);
   const page = path === '/file' ? <FilePage /> : path === '/excerpt' ? <ExcerptPage /> : path === '/players' ? <PlayersPage /> : path === '/book-one' ? <BookOnePage /> : path === '/author' ? <AuthorPage /> : path === '/buy' ? <BuyPage /> : <HomePage />;
-  return <div className="scanlines vignette min-h-screen bg-ink-base text-bright"><Nav /><main><RouteErrorBoundary routeKey={path}>{page}</RouteErrorBoundary></main><Footer /></div>;
+  return <div className="scanlines vignette min-h-screen text-bright"><LedgerRainBackground /><Nav /><main><RouteErrorBoundary routeKey={path}>{page}</RouteErrorBoundary></main><Footer /></div>;
 }
 
 export default App;
