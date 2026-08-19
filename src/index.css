@@ -163,3 +163,31 @@ input:focus-visible {
   width: 22px;
   height: 22px;
 }
+
+/* Subtle cyberpunk RGB-split glitch flicker for CTA/headline hover states */
+.glitch-hover {
+  transition: text-shadow 0.15s ease;
+}
+.glitch-hover:hover,
+.glitch-hover:focus-visible {
+  text-shadow: -1px 0 rgba(90, 200, 255, 0.55), 1px 0 rgba(232, 61, 130, 0.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .glitch-hover:hover,
+  .glitch-hover:focus-visible {
+    text-shadow: none;
+  }
+}
+
+/* Fade-to-card gradient at the base of the embedded chapter preview */
+.chapter-preview-fade {
+  position: relative;
+}
+.chapter-preview-fade::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4.5rem;
+  background: linear-gradient(to bottom, transparent, #16161a);
+  pointer-events: none;
+}
