@@ -19,7 +19,7 @@ export default {
         bone: '#eef0f2',
         bright: '#f4f5f6',
         'bright-muted': '#c7cbd1',
-        'bright-faint': '#7f8791',
+        'bright-faint': '#9aa1ab',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
@@ -51,11 +51,19 @@ export default {
           '0%': { backgroundPosition: '0 0' },
           '100%': { backgroundPosition: '0 100vh' },
         },
+        glitch: {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '20%': { transform: 'translate(-2px, 1px)' },
+          '40%': { transform: 'translate(2px, -1px)' },
+          '60%': { transform: 'translate(-1px, 2px)' },
+          '80%': { transform: 'translate(1px, -2px)' },
+        },
       },
       animation: {
         flicker: 'flicker 6s linear infinite',
         revealUp: 'revealUp 0.4s ease forwards',
         scrollX: 'scrollX 40s linear infinite',
+        glitch: 'glitch 0.28s steps(2, end) 1',
       },
     },
   },
