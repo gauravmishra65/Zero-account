@@ -28,13 +28,17 @@ Gaurav Mishra noticed them beneath his desk the way he noticed most things in hi
 
 Six months had passed. Technically, he wasn't supposed to be working.`;
 const TICKER_LINES = [
-  'CREDENTIAL: SUNITA_VERMA $€₹ STATUS: DORMANT→ACTIVE $€₹',
-  'SYSTEM: ZERO $€₹ ACCESS: UNAUTHORIZED $€₹',
-  'INVESTIGATOR: GAURAV_MISHRA $€₹ CLEARANCE: PENDING $€₹',
-  'THRESHOLD_BREACH: CONFIRMED $€₹',
-  'TRANSACTIONS: 17 $€₹ WINDOW: 00:00:08 $€₹',
-  'EVIDENCE_CHAIN: COMPROMISED $€₹',
-  'RELEASE_WINDOW: MID-SEPTEMBER 2026 $€₹',
+  'CREDENTIAL: SUNITA_VERMA',
+  'STATUS: DORMANT→ACTIVE',
+  'SYSTEM: ZERO',
+  'ACCESS: UNAUTHORIZED',
+  'INVESTIGATOR: GAURAV_MISHRA',
+  'CLEARANCE: PENDING',
+  'THRESHOLD_BREACH: CONFIRMED',
+  'TRANSACTIONS: 17',
+  'WINDOW: 00:00:08',
+  'EVIDENCE_CHAIN: COMPROMISED',
+  'RELEASE_WINDOW: MID-SEPTEMBER 2026',
 ];
 
 const NAV_LINKS = [
@@ -219,7 +223,9 @@ function Nav() {
 }
 
 function Ticker() {
-  const line = TICKER_LINES.join('   ');
+  // Divider repeats between every fragment, including the loop seam between
+  // the two duplicated spans, so the marquee never reads as two words jammed together.
+  const line = `${TICKER_LINES.join(' $€₹ ')} $€₹ `;
   return (
     <div className="overflow-hidden border-y border-ink-line bg-ink-panel/70">
       <div className="ticker-track flex w-max animate-scrollX hover:[animation-play-state:paused]">
@@ -254,6 +260,9 @@ function SectionLink({ href, label, text }: { href: string; label: string; text:
   );
 }
 
+// Real reader/press quotes not yet in hand — flip to true once verified copies land.
+const SHOW_PRAISE = false;
+
 type Praise = { quote: string; source: string };
 const PRAISE: Praise[] = [
   { quote: 'A propulsive, ice-cold thriller that makes financial crime feel like a heist unfolding in real time.', source: 'EARLY READER — ADVANCE COPY' },
@@ -285,7 +294,6 @@ function PraiseSection() {
           </figure>
         ))}
       </div>
-      <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-bright-faint">$€₹ PLACEHOLDER PRAISE — REPLACE WITH VERIFIED READER / PRESS QUOTES BEFORE LAUNCH</p>
     </section>
   );
 }
@@ -306,8 +314,9 @@ function HomePage() {
             </h1>
             <p className="mt-7 min-h-[3.5rem] max-w-xl font-serif text-xl leading-snug text-bright sm:text-2xl lg:text-3xl">&ldquo;{tagline}&rdquo;</p>
             <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#/excerpt" className="glitch-hover group inline-flex items-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_24px_rgba(232,163,61,0.5)]">READ THE CASE FILE <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
-              <a href="#/players" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">MEET THE PLAYERS</a>
+              <a href="#/buy" className="glitch-hover group inline-flex items-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500 hover:shadow-[0_0_24px_rgba(220,38,38,0.55)]">GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
+              <a href="#/excerpt" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">READ CHAPTER 1</a>
+              <a href="#/players" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">MEET THE CHARACTERS</a>
             </div>
           </div>
           <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
@@ -335,7 +344,7 @@ function HomePage() {
           <SectionLink href="#/players" label="THE PLAYERS" text="The analyst. The investigator. The system that has no face." />
         </div>
       </section>
-      <PraiseSection />
+      {SHOW_PRAISE && <PraiseSection />}
     </>
   );
 }
