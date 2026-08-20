@@ -178,7 +178,7 @@ function SiteLogo() {
   return (
     <a href="#/" aria-label="Return to Zero Account home" className="flex items-center gap-3">
       <span className="flex h-9 w-[104px] items-center justify-center overflow-hidden bg-[#f8f5ef] px-2">
-        <img src="/authorgaurav-logo.png" alt="Gaurav Mishra" className="h-full w-full object-contain" />
+        <img src="/authorgaurav-logo.webp" alt="Gaurav Mishra" className="h-full w-full object-contain" />
       </span>
       <span className="font-heading text-base font-semibold tracking-wide text-bright hover:text-signal transition-colors">
         ZERO_ACCOUNT<span className="text-signal">$€₹</span>
@@ -205,7 +205,7 @@ function Nav() {
           ))}
           <a href="#/buy" className="glitch-hover border border-signal px-4 py-2 font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-signal transition-all hover:bg-signal hover:text-ink-base hover:shadow-[0_0_18px_rgba(232,163,61,0.45)]">PRE-ORDER</a>
         </div>
-        <button className="text-bright lg:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+        <button className="flex min-h-[44px] min-w-[44px] items-center justify-center text-bright lg:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
@@ -337,7 +337,7 @@ function HomePage() {
             </h1>
             <p className="mt-7 min-h-[3.5rem] max-w-xl font-serif text-xl leading-snug text-bright sm:text-2xl lg:text-3xl">&ldquo;{tagline}&rdquo;</p>
             <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#/buy" className="glitch-hover group inline-flex items-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500 hover:shadow-[0_0_24px_rgba(220,38,38,0.55)]">GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
+              <a href="#/buy" className="glitch-hover group inline-flex min-h-[44px] items-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500 hover:shadow-[0_0_24px_rgba(220,38,38,0.55)] sm:min-h-0">GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
               <a href="#/excerpt" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">READ CHAPTER 1</a>
               <a href="#/players" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">MEET THE CHARACTERS</a>
             </div>
@@ -385,7 +385,7 @@ function ChapterPreview() {
         <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-bright-faint">EST. READ TIME: 6 MIN</span>
       </div>
       <div className="chapter-preview-fade corner-frame relative overflow-hidden border border-ink-muted bg-ink-card p-7 sm:p-10">
-        <pre className="whitespace-pre-wrap font-mono text-[14px] leading-[1.9] text-bright-muted">{preview}</pre>
+        <pre className="whitespace-pre-wrap break-words font-mono text-[16px] leading-[1.9] text-bright-muted sm:text-[14px]">{preview}</pre>
       </div>
       <a href="#/excerpt" className="glitch-hover mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-signal hover:text-signal-glow">READ CHAPTER 1 IN FULL <span className="inline-flex"><ArrowRight size={15} /></span></a>
     </div>
@@ -421,7 +421,7 @@ function ExcerptPage() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#28251c]/40 to-[#14130f]/60" />
           <div className="absolute right-5 top-5 rotate-[-6deg] border border-signal/60 px-2 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-signal">EYES ONLY</div>
           <div className="relative mb-8 flex items-center gap-3 border-b border-[#3a352a] pb-5"><FileText size={17} className="text-signal" /><span className="font-mono text-[12px] uppercase tracking-[0.24em] text-bright-muted">SCANNED_DOCUMENT $€₹ INTACT</span></div>
-          <pre className="relative whitespace-pre-wrap font-mono text-[15px] leading-[1.95] text-[#eee8d8]">{EXCERPT}</pre>
+          <pre className="relative whitespace-pre-wrap break-words font-mono text-[16px] leading-[1.95] text-[#eee8d8] sm:text-[15px]">{EXCERPT}</pre>
           <div className="relative mt-10 border-t border-[#3a352a] pt-5"><p className="font-mono text-[12px] uppercase tracking-[0.18em] text-signal">[ REMAINDER OF FILE REDACTED — CONTINUE READING IN THE FULL BOOK ]</p></div>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-between gap-5 border-t border-ink-line pt-6"><p className="font-mono text-[12px] uppercase tracking-[0.2em] text-bright-faint">TRANSMISSION 001 $€₹ END</p><a href="#/buy" className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal hover:text-signal-glow">ACQUIRE THE FILE <span className="inline-flex"><ArrowRight size={15} /></span></a></div>
@@ -455,7 +455,7 @@ function PlayersPage() {
 }
 
 function BookOnePage() {
-  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="corner-frame group grid gap-8 border border-ink-line bg-ink-card p-8 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)] sm:p-12 md:grid-cols-[0.55fr_1fr] md:items-center"><div className="relative mx-auto aspect-[2/3] w-[170px] overflow-hidden border border-ink-muted bg-ink-base shadow-[0_20px_50px_-20px_rgba(0,0,0,0.85)] sm:w-[200px]"><img src="https://the-shadow-code.com/Screenshot_2026-06-11_192313.png" alt="Shadow Code book cover" className="h-full w-full object-cover" /></div><div><div className="flex flex-wrap items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE $€₹ THE GAURAV MISHRA SERIES</CaseLabel><h2 className="break-words font-heading text-[clamp(1.6rem,4vw,2.75rem)] font-bold tracking-wide text-bright">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[12px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
+  return <><PageIntro label="CROSS-REFERENCE" title="BOOK ONE — SHADOW CODE">Before Zero Account, there was a different kind of breach. Gaurav Mishra was already inside.</PageIntro><main className="mx-auto max-w-5xl px-5 py-20 lg:px-8 lg:py-28"><a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="corner-frame group grid gap-8 border border-ink-line bg-ink-card p-8 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)] sm:p-12 md:grid-cols-[0.55fr_1fr] md:items-center"><div className="relative mx-auto aspect-[2/3] w-[170px] overflow-hidden border border-ink-muted bg-ink-base shadow-[0_20px_50px_-20px_rgba(0,0,0,0.85)] sm:w-[200px]"><img src="https://the-shadow-code.com/Screenshot_2026-06-11_192313.png" alt="Shadow Code book cover" loading="lazy" decoding="async" className="h-full w-full object-cover" /></div><div><div className="flex flex-wrap items-start justify-between gap-6"><div><CaseLabel className="mb-5 block">BOOK ONE $€₹ THE GAURAV MISHRA SERIES</CaseLabel><h2 className="break-words font-heading text-[clamp(1.6rem,4vw,2.75rem)] font-bold tracking-wide text-bright">SHADOW CODE</h2><p className="mt-6 max-w-2xl font-serif text-xl leading-relaxed text-bright-muted sm:text-2xl">The case that came before. Gaurav Mishra walks into the dark, and the dark remembers his name.</p></div><ExternalLink className="shrink-0 text-signal" size={26} /></div><div className="mt-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-signal">OPEN THE SHADOW CODE FILE <span className="inline-flex"><ArrowRight size={15} /></span></div></div></a><div className="mt-8 flex items-center gap-4 font-mono text-[12px] uppercase tracking-[0.18em] text-bright-faint"><span className="inline-flex"><ArrowLeft size={14} /></span> RETURN TO THE SERIES INDEX</div></main></>;
 }
 
 function AuthorPage() {
@@ -466,7 +466,7 @@ function AuthorPage() {
         <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" aria-label="Visit authorgaurav.com" className="corner-frame group relative block overflow-hidden border border-ink-muted bg-ink-card shadow-[0_25px_70px_-25px_rgba(0,0,0,0.85)]">
-              <img src="https://authorgaurav.com/images/author/GM-Photo.jpg" alt="Gaurav Mishra, author portrait" className="aspect-[2/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+              <img src="https://authorgaurav.com/images/author/GM-Photo.jpg" alt="Gaurav Mishra, author portrait" loading="lazy" decoding="async" className="aspect-[2/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-base/80 via-transparent to-transparent" />
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-ink-line/80 bg-ink-base/85 px-4 py-3 backdrop-blur-sm">
                 <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-bright-faint">$€₹ FIELD_PHOTO :: AUTHOR</span>
@@ -474,7 +474,7 @@ function AuthorPage() {
               </div>
             </a>
             <div className="mt-5 flex items-center gap-3 border border-ink-line bg-[#f8f5ef] px-4 py-3">
-              <img src="/authorgaurav-logo.png" alt="Gaurav Mishra logo" className="h-8 w-auto object-contain" />
+              <img src="/authorgaurav-logo.webp" alt="Gaurav Mishra logo" loading="lazy" decoding="async" className="h-8 w-auto object-contain" />
               <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-base/70">THE GAURAV MISHRA SERIES</span>
             </div>
           </div>
@@ -513,7 +513,7 @@ function ClearanceRequest({
     setMessage(result.reason === 'rate_limited' ? 'TOO MANY REQUESTS $€₹ STAND BY AND RETRY LATER' : result.reason === 'invalid_email' ? 'INVALID_ADDRESS $€₹ CHECK INPUT' : 'TRANSMISSION FAILED $€₹ TRY AGAIN');
   }
   if (status === 'done') return <div className="border border-signal/60 bg-ink-card p-6"><p className="font-mono text-sm uppercase tracking-[0.16em] text-signal">{successMessage}</p></div>;
-  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-sm text-bright outline-none placeholder:text-bright-faint" /></div><button disabled={status === 'loading'} className="inline-flex items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}{privacyNote && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-faint">{privacyNote}</p>}</form>;
+  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-base text-bright outline-none placeholder:text-bright-faint sm:text-sm" /></div><button disabled={status === 'loading'} className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60 sm:min-h-0">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}{privacyNote && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-faint">{privacyNote}</p>}</form>;
 }
 
 function BuyPage() {
@@ -526,7 +526,7 @@ function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <div className="mb-10 grid gap-6 sm:grid-cols-2">
           <a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="glitch-hover group flex items-center gap-4 border border-ink-line bg-ink-card p-4 transition-all hover:-translate-y-0.5 hover:border-signal/60">
-            <img src="https://the-shadow-code.com/Screenshot_2026-06-11_192313.png" alt="Shadow Code book cover" className="h-20 w-14 shrink-0 border border-ink-muted object-cover" />
+            <img src="https://the-shadow-code.com/Screenshot_2026-06-11_192313.png" alt="Shadow Code book cover" loading="lazy" decoding="async" className="h-20 w-14 shrink-0 border border-ink-muted object-cover" />
             <div>
               <span className="mb-1 inline-block bg-signal px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-ink-base">BOOK ONE IN THE SERIES</span>
               <p className="font-heading text-lg font-bold tracking-wide text-bright">SHADOW CODE</p>
@@ -535,7 +535,7 @@ function Footer() {
           </a>
           <a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" className="glitch-hover group flex items-center gap-4 border border-ink-line bg-ink-card p-4 transition-all hover:-translate-y-0.5 hover:border-signal/60">
             <span className="flex h-20 w-14 shrink-0 items-center justify-center border border-ink-muted bg-[#f8f5ef]">
-              <img src="/authorgaurav-logo.png" alt="Gaurav Mishra" className="h-full w-full object-contain p-2" />
+              <img src="/authorgaurav-logo.webp" alt="Gaurav Mishra" loading="lazy" decoding="async" className="h-full w-full object-contain p-2" />
             </span>
             <div>
               <span className="mb-1 inline-block border border-signal/60 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-signal">THE AUTHOR</span>
@@ -586,11 +586,32 @@ class RouteErrorBoundary extends Component<
   }
 }
 
+// Fixed bottom bar on mobile only (hidden md:+) so the primary conversion
+// action stays reachable without scrolling back to the hero. Hidden on the
+// Buy page itself, since that page already is the destination.
+function MobileStickyCTA() {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-line bg-ink-base/95 p-3 backdrop-blur-md md:hidden">
+      <a href="#/buy" className="glitch-hover flex min-h-[44px] w-full items-center justify-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500">
+        GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} /></span>
+      </a>
+    </div>
+  );
+}
+
 function App() {
   const path = useHashPath();
   useEffect(() => { window.scrollTo({ top: 0 }); }, [path]);
   const page = path === '/file' ? <FilePage /> : path === '/excerpt' ? <ExcerptPage /> : path === '/players' ? <PlayersPage /> : path === '/book-one' ? <BookOnePage /> : path === '/author' ? <AuthorPage /> : path === '/buy' ? <BuyPage /> : <HomePage />;
-  return <div className="scanlines vignette min-h-screen text-bright"><LedgerRainBackground /><Nav /><main><RouteErrorBoundary routeKey={path}>{page}</RouteErrorBoundary></main><Footer /></div>;
+  return (
+    <div className="scanlines vignette min-h-screen pb-[68px] text-bright md:pb-0">
+      <LedgerRainBackground />
+      <Nav />
+      <main><RouteErrorBoundary routeKey={path}>{page}</RouteErrorBoundary></main>
+      <Footer />
+      {path !== '/buy' && <MobileStickyCTA />}
+    </div>
+  );
 }
 
 export default App;
