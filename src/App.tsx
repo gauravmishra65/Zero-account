@@ -298,6 +298,29 @@ function PraiseSection() {
   );
 }
 
+// Classified-dossier-styled email capture. Reuses the same hardened
+// za_subscribers write path (submitClearanceRequest) as the Buy page form —
+// just a second entry point with its own copy, not a second mailing list.
+function EmailCaptureSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <div className="corner-frame relative border border-dashed border-signal/50 bg-ink-card p-8 sm:p-12">
+        <div className="absolute right-5 top-5 rotate-[-6deg] border border-signal/60 px-2 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-signal">EYES ONLY</div>
+        <CaseLabel className="mb-4 block">&gt; SUBSCRIBER INTAKE :: ACTIVE</CaseLabel>
+        <h2 className="font-heading text-3xl font-bold tracking-wide text-bright sm:text-4xl">JOIN THE CASE FILE</h2>
+        <AccentBar className="mt-4 mb-6" />
+        <p className="max-w-xl font-serif text-lg leading-relaxed text-bright-muted sm:text-xl">Get Chapter 1 free + a launch alert the day ZERO ACCOUNT drops.</p>
+        <div className="mt-8 max-w-xl">
+          <ClearanceRequest
+            successMessage="CLEARANCE GRANTED — Check your inbox."
+            privacyNote="No spam. Unsubscribe anytime."
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const tagline = useTypewriter(TAGLINE);
   return (
@@ -344,6 +367,7 @@ function HomePage() {
           <SectionLink href="#/players" label="THE PLAYERS" text="The analyst. The investigator. The system that has no face." />
         </div>
       </section>
+      <EmailCaptureSection />
       {SHOW_PRAISE && <PraiseSection />}
     </>
   );
@@ -466,7 +490,10 @@ function AuthorPage() {
 
 const RETAILERS = ['AMAZON', 'KINDLE', 'FLIPKART', 'NOTIONPRESS', 'GOODREADS'];
 
-function ClearanceRequest() {
+function ClearanceRequest({
+  successMessage = 'CLEARANCE GRANTED $€₹ YOU WILL BE NOTIFIED $€₹',
+  privacyNote,
+}: { successMessage?: string; privacyNote?: string } = {}) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -481,8 +508,8 @@ function ClearanceRequest() {
     setStatus('error');
     setMessage(result.reason === 'rate_limited' ? 'TOO MANY REQUESTS $€₹ STAND BY AND RETRY LATER' : result.reason === 'invalid_email' ? 'INVALID_ADDRESS $€₹ CHECK INPUT' : 'TRANSMISSION FAILED $€₹ TRY AGAIN');
   }
-  if (status === 'done') return <div className="border border-signal/60 bg-ink-card p-6"><p className="font-mono text-sm uppercase tracking-[0.16em] text-signal">CLEARANCE GRANTED $€₹ YOU WILL BE NOTIFIED $€₹</p></div>;
-  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-sm text-bright outline-none placeholder:text-bright-faint" /></div><button disabled={status === 'loading'} className="inline-flex items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}</form>;
+  if (status === 'done') return <div className="border border-signal/60 bg-ink-card p-6"><p className="font-mono text-sm uppercase tracking-[0.16em] text-signal">{successMessage}</p></div>;
+  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-sm text-bright outline-none placeholder:text-bright-faint" /></div><button disabled={status === 'loading'} className="inline-flex items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}{privacyNote && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-faint">{privacyNote}</p>}</form>;
 }
 
 function BuyPage() {
