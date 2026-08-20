@@ -397,6 +397,10 @@ function FilePage() {
     <>
       <PageIntro label="THE FILE" title="A SYSTEM BUILT TO BLAME HER">{SECONDARY_HOOK}</PageIntro>
       <main className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+        <div className="corner-frame mb-16 border border-ink-line bg-ink-card p-8 sm:p-10">
+          <CaseLabel className="mb-5 block">&gt; BOOK BLURB :: CASE_FILE</CaseLabel>
+          <p className="max-w-3xl font-serif text-xl leading-relaxed text-bright sm:text-2xl">Sunita Verma&apos;s account was supposed to stay dormant. Then, in eight seconds, seventeen transactions moved billions through it — and every trail points to a woman who says she was never there. Analyst Gaurav Mishra has the evidence. Someone else has the eraser.</p>
+        </div>
         <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
           <div><CaseLabel className="mb-5 block">CASE SUMMARY $€₹ 00417</CaseLabel><div className="flex items-center gap-3 text-bright"><Lock size={20} className="text-signal" /><span className="font-mono text-[12px] uppercase tracking-[0.18em]">EYES ONLY $€₹ CLEARANCE PENDING</span></div><RuleLine className="my-8" /><p className="font-mono text-[12px] uppercase leading-loose tracking-[0.18em] text-bright-faint">SUBJECT: SUNITA_VERMA<br />SYSTEM: ZERO<br />THREAT LEVEL: GLOBAL<br />EVIDENCE STATUS: COMPROMISED</p></div>
           <div><p className="font-serif text-2xl leading-relaxed text-bright sm:text-3xl">{LOGLINE}</p><RuleLine className="my-8" /><p className="font-mono text-[12px] uppercase tracking-[0.2em] text-signal">$€₹ THE ACCOUNT IS NOT EMPTY. IT IS WAITING.</p></div>
