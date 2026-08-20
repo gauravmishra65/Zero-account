@@ -6,6 +6,7 @@ import {
   FileText,
   Fingerprint,
   Folder,
+  Instagram,
   Lock,
   Menu,
   Quote,
@@ -181,7 +182,7 @@ function SiteLogo() {
         <img src="/authorgaurav-logo.webp" alt="Gaurav Mishra" className="h-full w-full object-contain" />
       </span>
       <span className="font-heading text-base font-semibold tracking-wide text-bright hover:text-signal transition-colors">
-        ZERO_ACCOUNT<span className="text-signal">$€₹</span>
+        ZERO_ACCOUNT
       </span>
     </a>
   );
@@ -544,11 +545,18 @@ function Footer() {
             </div>
           </a>
         </div>
+        <div className="mb-8 border-t border-dashed border-signal/40 pt-8 text-center">
+          <a href="#/book-one" className="glitch-hover inline-flex items-center gap-2 font-mono text-[13px] font-semibold uppercase tracking-[0.18em] text-signal hover:text-signal-glow">Start with Book One: The Shadow Code <ArrowRight size={14} /></a>
+        </div>
         <div className="flex flex-col items-center justify-between gap-5 border-t border-ink-line pt-6 sm:flex-row">
           <p className="font-mono text-[12px] text-bright-faint">© {new Date().getFullYear()} Gaurav Mishra. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-5 font-mono text-[12px] uppercase tracking-[0.16em]">
+          <div className="flex flex-wrap items-center justify-center gap-5 font-mono text-[12px] uppercase tracking-[0.16em]">
             <a href="https://authorgaurav.com" target="_blank" rel="noopener noreferrer" className="text-bright-muted hover:text-signal">AUTHORGAURAV.COM</a>
             <a href="https://the-shadow-code.com" target="_blank" rel="noopener noreferrer" className="text-bright-muted hover:text-signal">THE-SHADOW-CODE.COM</a>
+            <a href="mailto:hello@writetogetherhub.com" className="text-bright-muted hover:text-signal">PRESS: HELLO@WRITETOGETHERHUB.COM</a>
+            <a href="https://www.instagram.com/gauravmishrawrites/" target="_blank" rel="noopener noreferrer" aria-label="Gaurav Mishra on Instagram" className="flex min-h-[44px] min-w-[44px] items-center justify-center text-bright-muted hover:text-signal">
+              <Instagram size={18} />
+            </a>
           </div>
         </div>
       </div>
