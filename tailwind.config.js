@@ -5,27 +5,29 @@ export default {
     extend: {
       colors: {
         ink: {
-          base: '#0a0a0c',
-          panel: '#111114',
-          card: '#16161a',
-          line: '#1f1f24',
+          base: '#08090b',
+          panel: '#111318',
+          card: '#16171c',
+          line: '#34363c',
           muted: '#3a3a42',
         },
         signal: {
           DEFAULT: '#e8a33d', // amber/terminal-gold
-          dim: '#8a6a2e',
-          glow: '#f5b94a',
+          dim: '#a96c22', // dark gold, for gradients and low-emphasis accents
+          glow: '#f2b94f',
         },
+        danger: '#c92f35', // reserved for alerts, warnings, breach/system signals only
         bone: '#eef0f2',
-        bright: '#f4f5f6',
-        'bright-muted': '#c7cbd1',
+        bright: '#f4f2ed',
+        'bright-muted': '#b7bbc2',
         'bright-faint': '#9aa1ab',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        heading: ['"Cinzel Decorative"', 'serif'],
-        mono: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['"Cinzel Decorative"', 'serif'], // reserved for the hero book title only
+        heading2: ['"Cormorant Garamond"', 'serif'], // section headings
+        mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
       },
       letterSpacing: {
         tightest: '-0.04em',
