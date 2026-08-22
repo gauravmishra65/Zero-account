@@ -1,4 +1,4 @@
-import { Component, useEffect, useRef, useState, type ErrorInfo, type FormEvent, type ReactNode } from 'react';
+import { Component, useEffect, useRef, useState, type ErrorInfo, type FormEvent, type MouseEvent, type ReactNode } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -175,6 +175,17 @@ function useHashPath() {
   return path;
 }
 
+// In-page smooth scroll for hero CTAs — keeps the hash router untouched (no
+// hashchange fires, so App's route-change scroll-to-top effect never fights
+// the scroll). Honors the user's reduced-motion preference via the global
+// `scroll-behavior` CSS rule rather than forcing 'smooth' from JS.
+function scrollToId(id: string) {
+  return (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ block: 'start' });
+  };
+}
+
 function SiteLogo() {
   return (
     <a href="#/" aria-label="Return to Zero Account home" className="flex items-center gap-3">
@@ -251,12 +262,12 @@ function PageIntro({ label, title, children }: { label: string; title: string; c
   );
 }
 
-function SectionLink({ href, label, text }: { href: string; label: string; text: string }) {
+function SectionLink({ href, label, text, openLabel = 'OPEN FILE', id }: { href: string; label: string; text: string; openLabel?: string; id?: string }) {
   return (
-    <a href={href} className="corner-frame group block border border-ink-line bg-ink-card p-6 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)]">
+    <a id={id} href={href} className="corner-frame group block border border-ink-line bg-ink-card p-6 transition-all hover:-translate-y-1 hover:border-signal/70 hover:shadow-[0_18px_40px_-20px_rgba(232,163,61,0.35)]">
       <CaseLabel className="mb-4 block">{label}</CaseLabel>
       <p className="font-serif text-xl leading-snug text-bright">{text}</p>
-      <span className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-signal">OPEN FILE <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span>
+      <span className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-signal">{openLabel} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span>
     </a>
   );
 }
@@ -304,13 +315,13 @@ function PraiseSection() {
 // just a second entry point with its own copy, not a second mailing list.
 function EmailCaptureSection() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+    <section id="subscribe" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
       <div className="corner-frame relative border border-dashed border-signal/50 bg-ink-card p-8 sm:p-12">
         <div className="absolute right-5 top-5 rotate-[-6deg] border border-signal/60 px-2 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-signal">EYES ONLY</div>
-        <CaseLabel className="mb-4 block">&gt; SUBSCRIBER INTAKE :: ACTIVE</CaseLabel>
+        <CaseLabel className="mb-4 block">&gt; RESTRICTED ACCESS :: ACTIVE</CaseLabel>
         <h2 className="font-heading text-3xl font-bold tracking-wide text-bright sm:text-4xl">JOIN THE CASE FILE</h2>
         <AccentBar className="mt-4 mb-6" />
-        <p className="max-w-xl font-serif text-lg leading-relaxed text-bright-muted sm:text-xl">Get Chapter 1 free + a launch alert the day ZERO ACCOUNT drops.</p>
+        <p className="max-w-xl font-serif text-lg leading-relaxed text-bright-muted sm:text-xl">Get Chapter One free and receive a launch alert when ZERO ACCOUNT is released.</p>
         <div className="mt-8 max-w-xl">
           <ClearanceRequest
             successMessage="CLEARANCE GRANTED — Check your inbox."
@@ -338,8 +349,8 @@ function HomePage() {
             </h1>
             <p className="mt-7 min-h-[3.5rem] max-w-xl font-serif text-xl leading-snug text-bright sm:text-2xl lg:text-3xl">&ldquo;{tagline}&rdquo;</p>
             <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#/buy" className="glitch-hover group inline-flex min-h-[44px] items-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500 hover:shadow-[0_0_24px_rgba(220,38,38,0.55)] sm:min-h-0">GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
-              <a href="#/excerpt" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">READ CHAPTER 1</a>
+              <a href="#subscribe" onClick={scrollToId('subscribe')} className="glitch-hover group inline-flex min-h-[44px] items-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500 hover:shadow-[0_0_24px_rgba(220,38,38,0.55)] sm:min-h-0">GET LAUNCH ALERT <span className="inline-flex"><ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></a>
+              <a href="#exhibit-a" onClick={scrollToId('exhibit-a')} className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">READ CHAPTER ONE</a>
               <a href="#/players" className="glitch-hover inline-flex items-center gap-2 border-2 border-signal/70 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-signal transition-all hover:-translate-y-0.5 hover:bg-signal/10 hover:shadow-[0_0_18px_rgba(232,163,61,0.35)]">MEET THE CHARACTERS</a>
             </div>
           </div>
@@ -360,12 +371,12 @@ function HomePage() {
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="mb-10 flex items-end justify-between gap-6">
           <div><CaseLabel className="mb-4 block">&gt; NAVIGATION :: CASE_INDEX</CaseLabel><h2 className="font-heading text-3xl font-bold tracking-wide text-bright sm:text-4xl">FOLLOW THE EVIDENCE</h2><AccentBar className="mt-4" /></div>
-          <span className="hidden font-mono text-[11px] uppercase tracking-[0.2em] text-bright-faint sm:block">06 FILES $€₹ 01 SUBJECT</span>
+          <span className="hidden font-mono text-[11px] uppercase tracking-[0.2em] text-bright-faint sm:block">03 FILES $€₹ 01 SUBJECT</span>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
-          <SectionLink href="#/file" label="THE FILE" text="A dormant credential. Billions in motion. One analyst left holding the evidence." />
-          <SectionLink href="#/excerpt" label="EXHIBIT A" text="The running shoes had only been worn twice. Then the file begins." />
-          <SectionLink href="#/players" label="THE PLAYERS" text="The analyst. The investigator. The system that has no face." />
+          <SectionLink href="#/file" label="THE FILE" text="A dormant credential. Billions in motion. One analyst left holding the evidence." openLabel="OPEN FILE $€₹ BOOK DETAILS" />
+          <SectionLink id="exhibit-a" href="#/excerpt" label="EXHIBIT A" text="The running shoes had only been worn twice. Then the file begins." openLabel="OPEN FILE $€₹ CHAPTER ONE" />
+          <SectionLink href="#/players" label="THE PLAYERS" text="The analyst. The investigator. The system that has no face." openLabel="OPEN FILE $€₹ CHARACTERS" />
         </div>
       </section>
       <EmailCaptureSection />
@@ -514,7 +525,7 @@ function ClearanceRequest({
     setMessage(result.reason === 'rate_limited' ? 'TOO MANY REQUESTS $€₹ STAND BY AND RETRY LATER' : result.reason === 'invalid_email' ? 'INVALID_ADDRESS $€₹ CHECK INPUT' : 'TRANSMISSION FAILED $€₹ TRY AGAIN');
   }
   if (status === 'done') return <div className="border border-signal/60 bg-ink-card p-6"><p className="font-mono text-sm uppercase tracking-[0.16em] text-signal">{successMessage}</p></div>;
-  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="agent@address.tld" className="w-full bg-transparent py-3 font-mono text-base text-bright outline-none placeholder:text-bright-faint sm:text-sm" /></div><button disabled={status === 'loading'} className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60 sm:min-h-0">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}{privacyNote && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-faint">{privacyNote}</p>}</form>;
+  return <form onSubmit={submit} className="border border-ink-line bg-ink-card p-6"><div className="flex flex-col gap-3 sm:flex-row"><label htmlFor="email" className="sr-only">Email address</label><div className="flex flex-1 items-center border border-ink-muted bg-ink-base px-3 focus-within:border-signal"><span className="mr-2 font-mono text-signal">&gt;</span><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="your@email.com" className="w-full bg-transparent py-3 font-mono text-base text-bright outline-none placeholder:text-bright-faint sm:text-sm" /></div><button disabled={status === 'loading'} className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-signal px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-base transition-all hover:bg-signal-glow hover:shadow-[0_0_20px_rgba(232,163,61,0.45)] disabled:opacity-60 sm:min-h-0">{status === 'loading' ? 'TRANSMITTING…' : 'REQUEST CLEARANCE'} <span className="inline-flex"><Send size={15} /></span></button></div>{status === 'error' && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-red-300">{message}</p>}{privacyNote && <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-bright-faint">{privacyNote}</p>}</form>;
 }
 
 function BuyPage() {
@@ -545,6 +556,11 @@ function Footer() {
             </div>
           </a>
         </div>
+        <nav aria-label="Footer" className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-ink-line pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-bright-faint">
+          {NAV_LINKS.map((link) => (
+            <a key={link.href} href={link.href} className="hover:text-signal">{link.label}</a>
+          ))}
+        </nav>
         <div className="mb-8 border-t border-dashed border-signal/40 pt-8 text-center">
           <a href="#/book-one" className="glitch-hover inline-flex items-center gap-2 font-mono text-[13px] font-semibold uppercase tracking-[0.18em] text-signal hover:text-signal-glow">Start with Book One: The Shadow Code <ArrowRight size={14} /></a>
         </div>
@@ -601,7 +617,7 @@ function MobileStickyCTA() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-line bg-ink-base/95 p-3 backdrop-blur-md md:hidden">
       <a href="#/buy" className="glitch-hover flex min-h-[44px] w-full items-center justify-center gap-2 bg-red-600 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-white transition-all hover:bg-red-500">
-        GET NOTIFIED AT LAUNCH <span className="inline-flex"><ArrowRight size={16} /></span>
+        GET LAUNCH ALERT <span className="inline-flex"><ArrowRight size={16} /></span>
       </a>
     </div>
   );
