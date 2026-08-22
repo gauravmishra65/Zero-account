@@ -33,12 +33,15 @@ export default {
         tightest: '-0.04em',
       },
       keyframes: {
+        // Subtler dip (was 0.35/0.55) and fired a bounded number of times
+        // (via the `animation` entry below) rather than looping forever, so
+        // the effect reads once as a reveal and then settles down.
         flicker: {
           '0%, 100%': { opacity: '1' },
           '92%': { opacity: '1' },
-          '93%': { opacity: '0.35' },
+          '93%': { opacity: '0.72' },
           '94%': { opacity: '1' },
-          '96%': { opacity: '0.55' },
+          '96%': { opacity: '0.85' },
           '97%': { opacity: '1' },
         },
         revealUp: {
@@ -62,7 +65,7 @@ export default {
         },
       },
       animation: {
-        flicker: 'flicker 6s linear infinite',
+        flicker: 'flicker 6s ease-in-out 3',
         revealUp: 'revealUp 0.4s ease forwards',
         scrollX: 'scrollX 40s linear infinite',
         glitch: 'glitch 0.28s steps(2, end) 1',
