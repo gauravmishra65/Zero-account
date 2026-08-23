@@ -677,7 +677,7 @@ function ClearanceRequest({
     }
     if (!supabaseReady) { setStatus('error'); setMessage('BACKEND OFFLINE // TRY AGAIN LATER'); return; }
     const trimmed = email.trim().toLowerCase();
-    if (!trimmed || trimmed.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) { setStatus('error'); setMessage('INVALID_ADDRESS // CHECK INPUT'); return; }
+if (!trimmed || trimmed.length > 254 || !trimmed.includes("@") || !trimmed.includes("."))
     setStatus('loading');
     const result = await submitClearanceRequest(trimmed);
     if (result.ok) {
