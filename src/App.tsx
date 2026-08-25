@@ -436,7 +436,7 @@ function HomePage() {
               <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-signal/15 blur-[70px]" />
               <div className="absolute -left-3 -top-3 z-10 bg-signal px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-ink-base">Book Two</div>
               <div className="corner-frame motion-safe:transition-transform motion-safe:duration-500 relative aspect-[2/3] w-[250px] overflow-hidden border border-ink-muted bg-ink-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),0_0_50px_-12px_rgba(232,163,61,0.35)] sm:w-[310px] motion-safe:lg:group-hover:[transform:perspective(900px)_rotateY(-6deg)_rotateX(2deg)]">
-                <img src="https://the-shadow-code.com/covers/the-zero-account-front.webp" alt="Zero Account book cover" className="h-full w-full object-cover" />
+                <img src="https://github.com/gauravmishra65/Zero-account/blob/main/public/cover.webp" alt="Zero Account book cover" className="h-full w-full object-cover" />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-signal/20" />
               </div>
               <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.22em] text-bright-faint">// ITEM_001 :: COVER_PLATE</p>
