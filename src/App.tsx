@@ -998,7 +998,7 @@ function setJsonLd(id: string, data: Record<string, unknown>) {
 }
 
 const SITE_URL = 'https://zero-account.com/';
-const COVER_IMAGE = 'https://the-shadow-code.com/covers/the-zero-account-front.webp';
+const COVER_IMAGE = 'https://github.com/gauravmishra65/Zero-account/blob/main/public/cover.webp';
 
 // Site-wide structured data (Book, Person, WebSite) — added once. Only
 // confirmed facts are included; ISBN, publisher and price are deliberately
