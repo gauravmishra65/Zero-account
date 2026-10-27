@@ -425,7 +425,7 @@ function HomePage() {
           <div className="hero-grid-top">
             <CaseLabel className="mb-6 block">{CASE_HEADER}</CaseLabel>
             <p className="mb-4 font-mono text-[12px] uppercase tracking-[0.3em] text-signal">{SERIES_LINE}</p>
-            <p className="mb-5 font-mono text-[12px] uppercase tracking-[0.3em] text-signal">// ARRIVES MID-SEPTEMBER 2026</p>
+            <p className="mb-5 font-mono text-[12px] uppercase tracking-[0.3em] text-signal">// ARRIVES MID-NOVEMBER 2026</p>
             <h1 className="break-words font-heading text-[clamp(3.625rem,8vw,6.75rem)] font-bold leading-[0.94] tracking-[0.015em] text-bright">
               ZERO <span className="animate-flicker bg-[linear-gradient(90deg,#F2B94F_0%,#D8952F_55%,#B97824_100%)] bg-clip-text text-transparent">ACCOUNT</span>
             </h1>
@@ -762,7 +762,7 @@ function BuyPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               {RETAILERS.map((retailer) => <RetailerButton key={retailer} retailer={retailer} />)}
             </div>
-            <p className="mt-6 max-w-sm font-serif text-base leading-relaxed text-bright-muted">RELEASING MID-SEPTEMBER 2026. Get Chapter One now and receive the launch link the moment the book goes live.</p>
+            <p className="mt-6 max-w-sm font-serif text-base leading-relaxed text-bright-muted">RELEASING MID-NOVEMBER 2026. Get Chapter One now and receive the launch link the moment the book goes live.</p>
           </div>
           <div>
             <CaseLabel className="mb-5 block">&gt; REQUEST_CLEARANCE ::</CaseLabel>
@@ -931,7 +931,7 @@ function AccessibilityPage() {
 const PAGE_META: Record<string, { title: string; description: string }> = {
   '/': {
     title: 'Zero Account | A Gaurav Mishra Thriller',
-    description: 'A dormant account. Seventeen transactions in eight seconds. ZERO ACCOUNT, the new Gaurav Mishra thriller, arrives mid-September 2026.',
+    description: 'A dormant account. Seventeen transactions in eight seconds. ZERO ACCOUNT, the new Gaurav Mishra thriller, arrives MID-NOVEMBER 2026.',
   },
   '/file': {
     title: 'The Story — Zero Account | Gaurav Mishra',
@@ -954,8 +954,8 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
     description: 'Gaurav Mishra writes financial-crime thrillers grounded in how modern fraud actually works. Learn more about the author of ZERO ACCOUNT.',
   },
   '/buy': {
-    title: 'Get the Book — Zero Account | Releasing Mid-September 2026',
-    description: 'ZERO ACCOUNT releases mid-September 2026. Get Chapter One free now and receive the launch link the moment the book goes live.',
+    title: 'Get the Book — Zero Account | Releasing MID-NOVEMBER 2026',
+    description: 'ZERO ACCOUNT releases MID-NOVEMBER 2026. Get Chapter One free now and receive the launch link the moment the book goes live.',
   },
   '/privacy': { title: 'Privacy Policy — Zero Account', description: 'How zero-account.com collects and uses your email address.' },
   '/terms': { title: 'Terms of Use — Zero Account', description: 'Terms of use for zero-account.com.' },
